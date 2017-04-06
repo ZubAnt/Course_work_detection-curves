@@ -20,7 +20,7 @@ def marqumq(sqrt_E2_N0, false_alarm):
 
     k = np.exp(-coeff_discount - ln_inv_f)
 
-    return k * my_summ(lambda k: maclor(coeff_discount, k) * my_summ(lambda l: maclor(ln_inv_f, l), 0, k), 0, 150)
+    return k * my_summ(lambda k: maclor(coeff_discount, k) * my_summ(lambda l: maclor(ln_inv_f, l), 0, k), 0, 100)
 
 
 def get_prob_det(false_alarm):
