@@ -58,11 +58,11 @@ def plot_incoh_and_coh(false_alarm):
 if __name__ == "__main__":
 
     # Plot integrand
-    toronto.plot_integrand_one_impulse()      # график подинтеграла для некогерентного случая по по инф. техн. с Торонто
-    no_toronto.plot_integrand_one_impulse()   # график подинтеграла для некогерентного случая по Ширману и по инф. техн.
+    # toronto.plot_integrand_one_impulse()      # график подинтеграла для некогерентного случая по по инф. техн. с Торонто
+    # no_toronto.plot_integrand_one_impulse()   # график подинтеграла для некогерентного случая по Ширману и по инф. техн.
 
     incor.plot_for_one_imp_with_toronto()     # график интеграла с функций торонто
-    incor.plot_for_one_imp_without_toronto()  # график интеграла без функции торонто
-
-    plot_incoh_and_coh(10 ** -4)              # график когерентной и не когерентной кривой для одинаковых F
+    # incor.plot_for_one_imp_without_toronto()  # график интеграла без функции торонто
+    #
+    # plot_incoh_and_coh(10 ** -4)              # график когерентной и не когерентной кривой для одинаковых F
 
