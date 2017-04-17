@@ -3,15 +3,21 @@ import random_initial_phase_signal as rips
 import random_inital_phase_and_amp as ripa
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.core.numerictypes as npt
 import scipy.stats as stats
 
 import chi2_mod
 import num_integrate
 import scipy.special as spec
+import scipy.misc as misc
 import Incoherent_inital_phase_signal as incor
 
 import toronto
 import no_toronto
+import gamma
+import modif_bessel
+
+import csv
 
 
 def plot_coherent_all():
@@ -37,7 +43,8 @@ def plot_bessel():
     y = list()
     for i in np.arange(0, 4, 0.1):
         x.append(i)
-        y.append(spec.i0(i))
+        # y.append(spec.i1(i))
+        y.append(spec.iv(0, i))
 
     plt.plot(x, y)
     plt.axis([0, 4, 0, 3.5])
@@ -58,11 +65,26 @@ def plot_incoh_and_coh(false_alarm):
 if __name__ == "__main__":
 
     # Plot integrand
-    toronto.plot_integrand_one_impulse()      # график подинтеграла для некогерентного случая по по инф. техн. с Торонто
-    no_toronto.plot_integrand_one_impulse()   # график подинтеграла для некогерентного случая по Ширману и по инф. техн.
+    # toronto.plot_integrand_one_impulse()      # график подинтеграла для некогерентного случая по по инф. техн. с Торонто
+    # no_toronto.plot_integrand_one_impulse()   # график подинтеграла для некогерентного случая по Ширману и по инф. техн.
 
     incor.plot_for_one_imp_with_toronto()     # график интеграла с функций торонто
-    incor.plot_for_one_imp_without_toronto()  # график интеграла без функции торонто
+    # print(stats.chi2.ppf(1 - 10**(-4), 2))
+    # incor.plot_for_one_imp_without_toronto()  # график интеграла без функции торонто
+    # incor.plot_for_one_imp_with_toronto_norm()
 
-    plot_incoh_and_coh(10 ** -4)              # график когерентной и не когерентной кривой для одинаковых F
+    # toronto.plot_func_norm_2()
+    # plot_incoh_and_coh(10 ** -4)              # график когерентной и не когерентной кривой для одинаковых F
+    # plot_bessel()
+
+    # false_alam = np.float128(1.0)
+    # print(false_alam)
+    # print(np.sin(np.float128(3.14 / 2)))
+    # gamma.plot()
+    # modif_bessel.plot()
+    # print(spec.gamma(np.float128(3.14 / 2)))
+
+
+
+
 
