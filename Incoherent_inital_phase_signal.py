@@ -23,7 +23,7 @@ def get_prob_det_with_toronto_one_impulse(false_alarm, from_a, to_b):
     csvfile.close()
 
     df = 2  # число степеней свободы - для одного имплься = 2
-    for i in np.arange(from_a, to_b, (to_b - from_a) / 50, dtype=np.float64):
+    for i in np.arange(from_a, to_b, (to_b - from_a) / 10, dtype=np.float64):
         csvfile = open('tor_in_work.csv', 'a')
         spamwriter = csv.writer(csvfile, delimiter=' ')
 
@@ -93,8 +93,8 @@ def plot_for_one_imp_with_toronto():
     # x3, y3 = get_prob_det_with_toronto_one_impulse(10 ** -8, 1, 30)
 
     false_alam = np.float128(10 ** -6)
-    from_a = np.float128(1.0)
-    to_b = np.float128(60.0)
+    from_a = np.float128(10.0)
+    to_b = np.float128(25.0)
     x2, y2 = get_prob_det_with_toronto_one_impulse(false_alam, from_a, to_b)
 
     # with open('tor.csv', 'w') as csvfile:

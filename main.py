@@ -68,7 +68,7 @@ if __name__ == "__main__":
     # toronto.plot_integrand_one_impulse()      # график подинтеграла для некогерентного случая по по инф. техн. с Торонто
     # no_toronto.plot_integrand_one_impulse()   # график подинтеграла для некогерентного случая по Ширману и по инф. техн.
 
-    incor.plot_for_one_imp_with_toronto()     # график интеграла с функций торонто
+    # incor.plot_for_one_imp_with_toronto()     # график интеграла с функций торонто
     # print(stats.chi2.ppf(1 - 10**(-4), 2))
     # incor.plot_for_one_imp_without_toronto()  # график интеграла без функции торонто
     # incor.plot_for_one_imp_with_toronto_norm()
@@ -83,6 +83,8 @@ if __name__ == "__main__":
     # gamma.plot()
     # modif_bessel.plot()
     # print(spec.gamma(np.float128(3.14 / 2)))
+
+    toronto.testing_integrand(0, 50)
 
 
 
