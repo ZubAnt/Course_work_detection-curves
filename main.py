@@ -18,6 +18,8 @@ import gamma
 import modif_bessel
 
 import csv
+import factorial
+import plot_from_log
 
 
 def plot_coherent_all():
@@ -84,8 +86,10 @@ if __name__ == "__main__":
     # modif_bessel.plot()
     # print(spec.gamma(np.float128(3.14 / 2)))
 
-    toronto.testing_integrand(0, 50)
-
+    # toronto.testing_integrand(0, 50)
+    # factorial.test()
+    # modif_bessel.test()
+    plot_from_log.plot()
 
 
 

@@ -13,6 +13,7 @@ import csv
 
 
 def integrand(t, m, N, r):
+    # return np.float128((t ** (m - N)) * np.exp(-(t ** 2)) * special.iv(int(N), float(2 * r * t)))
     return np.float128((t ** (m - N)) * np.exp(-(t ** 2)) * iv.func(N, 2 * r * t))
 
 
@@ -52,9 +53,6 @@ def func(a, m, N, r):
 
     k = np.float128(2 * (r ** (N - m + 1)) * np.exp(-(r ** 2)))
     integral = np.float128(integrate.quad(lambda t: integrand(t, m, N, r), 0, a)[0])
-
-    ## Расчет методом трапеций
-    # integral = num_integrate.integrate_by_trapezium(lambda t: integrand(t, m, N, r), 0, a)
 
     return np.float128(k * integral)
 
