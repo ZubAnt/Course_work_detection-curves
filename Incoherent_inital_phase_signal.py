@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import num_integrate
 import csv
+import os
+import datetime
 
 import toronto
 import no_toronto
@@ -16,21 +18,30 @@ def get_prob_det_with_toronto_one_impulse(false_alarm, from_a, to_b, N):
 
     x = list()
     y = list()
-    log_file_name = "D_F{F}___N{N}.csv".format(F=false_alarm, N=N)
+    csv_file_name = "csv/D_F{F}___N{N}.csv".format(F=false_alarm, N=N)
+    log_data_name = "log_data/D_F{F}___N{N}.txt".format(F=false_alarm, N=N)
 
-    csvfile = open(log_file_name, 'w')
-    spamwriter = csv.writer(csvfile, delimiter=' ')
+    csv_file = open(csv_file_name, 'w')
+    data_file = open(log_data_name, 'w')
+    spamwriter = csv.writer(csv_file, delimiter=' ')
+
     header = 'F = {F}; Nimp = {Nimp}; Range: [{a}, {b}]'.format(F=false_alarm, Nimp=N, a=from_a, b=to_b)
+
     spamwriter.writerow([header])
-    print(header)
+    data_file.write(header + "\n")
     spamwriter.writerow(['x', 'y'])
-    csvfile.close()
+
+    data_file.close()
+    csv_file.close()
 
     df = 2 * N  # число степеней свободы - для одного имплься = 2
-    for i in np.arange(from_a, to_b, (to_b - from_a) / 50, dtype=np.float64):
+    count_less_zero = 0
+    count_less_zero_on = False
+    for i in np.arange(from_a, to_b, (to_b - from_a) / 100, dtype=np.float64):
         x.append(i)
-        csvfile = open(log_file_name, 'a')
-        spamwriter = csv.writer(csvfile, delimiter=' ')
+        csv_file = open(csv_file_name, 'a')
+        data_file = open(log_data_name, 'a')
+        spamwriter = csv.writer(csv_file, delimiter=' ')
 
         C = stats.chi2.ppf(1 - false_alarm, df, 0, i)
         a = np.float128(np.sqrt(C / 2))
@@ -38,13 +49,36 @@ def get_prob_det_with_toronto_one_impulse(false_alarm, from_a, to_b, N):
         p = np.float128(N - 1)
         r = np.float128(np.sqrt(N) * i / np.sqrt(2))
         D = np.float128(1 - toronto.func(a, m, p, r))
-        print(i, D)
+
+        data_str = "i = {i}, C = {C}, a = {a}, m = {m}, p = {p}, r = {r}, D = {D}".\
+            format(i=i, C=C, a=a, m=m, p=p, r=r, D=D)
+
+        data_file.write(data_str + "\n")
         spamwriter.writerow([i, D])
-        csvfile.close()
+
+        csv_file.close()
+        data_file.close()
         y.append(D)
 
+        if D == np.inf:
+            error = "D == np.inf; {data}".format(data=data_str)
+            raise RuntimeError(error)
+
+        if D == np.nan:
+            error = "D == np.nan; {data}".format(data=data_str)
+            raise RuntimeError(error)
+
+        if count_less_zero > 10:
+            error = "count_less_zero > 10; {data}".format(data=data_str)
+            raise RuntimeError(error)
+        if count_less_zero_on is True and (D < 0):
+            count_less_zero += 1
+
+        if count_less_zero_on is False and (D < 0):
+            count_less_zero_on = True
+            count_less_zero += 1
+
         if (np.float128(1) - D) < np.float128(10 ** (-3)):
-            print("1 - D < 0.001")
             break
 
     return x, y
@@ -61,9 +95,7 @@ def get_prob_det_with_toronto_one_impulse_norm(false_alarm, from_a, to_b):
     for i in np.arange(from_a, to_b, (to_b - from_a) / 50):
 
         c = stats.chi2.ppf(1 - false_alarm, df, 0, i)
-
         x.append(i)
-        # np.sqrt(c / 2)
         d = toronto.func_norm(1, 0, i / np.sqrt(2), 1)
         y.append(d)
         print(i, d)
@@ -94,15 +126,24 @@ def get_prob_det_without_toronto_one_impulse(false_alarm):
     return x, y
 
 
+def init():
+    dir = ['csv', 'log', 'log_data']
+    for dir_name in dir:
+        try:
+            os.mkdir(dir_name)
+        except FileExistsError:
+            pass
+
+
 def plot_for_one_imp_with_toronto():
     # x1, y1 = get_prob_det_with_toronto_one_impulse(10 ** -4, 1, 30)
     # x2, y2 = get_prob_det_with_toronto_one_impulse(10 ** -6, 1, 30)
     # x3, y3 = get_prob_det_with_toronto_one_impulse(10 ** -8, 1, 30)
 
     false_alam = 10 ** -6
-    from_a = np.float128(1.0)
+    from_a = np.float128(0.1)
     to_b = np.float128(40.0)
-
+    init()
     x1, y1 = get_prob_det_with_toronto_one_impulse(false_alam, from_a, to_b, 1)
     x2, y2 = get_prob_det_with_toronto_one_impulse(false_alam, from_a, to_b, 2)
     x3, y3 = get_prob_det_with_toronto_one_impulse(false_alam, from_a, to_b, 3)
@@ -139,4 +180,30 @@ def plot_for_one_imp_without_toronto():
     plt.grid()
     plt.title("график кривой обнаружения без функции торонто")
     plt.show()
+
+
+def log_prob_det():
+
+    false_alam = 10 ** -7
+    from_a = np.float128(0.1)
+    to_b = np.float128(40.0)
+    init()
+    max_n = 100
+    for N in range(1, max_n + 1):
+        try:
+            get_prob_det_with_toronto_one_impulse(false_alam, from_a, to_b, N)
+        except RuntimeError as err:
+            err_file_name = "log/err_log.log"
+            curr_time = datetime.datetime.now()
+            file = open(err_file_name, 'a')
+            file.write("{time} ERROR: {error}\n".format(time=curr_time, error=err))
+            file.close()
+        except:
+            err_file_name = "log/err_log.log"
+            curr_time = datetime.datetime.now()
+            file = open(err_file_name, 'a')
+            file.write("{time} FATAL ERROR: N = {N}\n".format(time=curr_time, N=N))
+            file.close()
+
+
 

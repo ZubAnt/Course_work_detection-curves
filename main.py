@@ -3,6 +3,7 @@ import random_initial_phase_signal as rips
 import random_inital_phase_and_amp as ripa
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime
 import numpy.core.numerictypes as npt
 import scipy.stats as stats
 
@@ -63,6 +64,8 @@ def plot_incoh_and_coh(false_alarm):
     plt.title('график когерентной и не когерентной кривой для одинаковых F')
     plt.show()
 
+def test():
+    raise BaseException("test")
 
 if __name__ == "__main__":
 
@@ -89,7 +92,8 @@ if __name__ == "__main__":
     # toronto.testing_integrand(0, 50)
     # factorial.test()
     # modif_bessel.test()
-    plot_from_log.plot()
+    # plot_from_log.plot()
+    incor.log_prob_det()
 
 
 
