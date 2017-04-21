@@ -70,30 +70,6 @@ def test():
 
 if __name__ == "__main__":
 
-    # Plot integrand
-    # rips.get_EN0(10 ** -7, 0.9)
-
-    # incor.plot(10 ** -7, 1, 40, 1)     # график интеграла с функций торонто
-    # print(stats.chi2.ppf(1 - 10**(-4), 2))
-    # incor.plot_for_one_imp_without_toronto()  # график интеграла без функции торонто
-    # incor.plot_for_one_imp_with_toronto_norm()
-
-    # toronto.plot_func_norm_2()
-    # plot_incoh_and_coh(10 ** -4)              # график когерентной и не когерентной кривой для одинаковых F
-    # plot_bessel()
-
-    # false_alam = np.float128(1.0)
-    # print(false_alam)
-    # print(np.sin(np.float128(3.14 / 2)))
-    # gamma.plot()
-    # modif_bessel.plot()
-    # print(spec.gamma(np.float128(3.14 / 2)))
-
-    # toronto.testing_integrand(0, 50)
-    # factorial.test()
-    # modif_bessel.test()
-    # plot_from_log.plot()
-    # incor.log_prob_det()
     loss.log()
 
 

@@ -56,6 +56,7 @@ def get_sqrt2E_N0_from_curve(x, y, D):
     ind = 0
     ind_min_delta = 0
     min_delta = 1
+    D = np.float128(D)
     for prob_det_it in y:
         if D - prob_det_it < min_delta and (D - prob_det_it) > 0:
             ind_min_delta = ind
