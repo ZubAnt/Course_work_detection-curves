@@ -24,13 +24,12 @@ def summ_func(v, z, k):
 def getsumm(v, z):
 
     summ = np.float128(0.0)
-    for k in range(0, 40):
+    for k in range(0, 38):
         summ += summ_func(v, z, k)
     return np.float128(summ)
 
 
 def func(v, z):
-    modbes = None
 
     if z >= 700:
         k = np.float128((0.5 * z) ** v)
@@ -40,7 +39,6 @@ def func(v, z):
         modbes = np.float128(spec.iv(int(v), float(z)))
 
     return modbes
-
 
 
 def plot():

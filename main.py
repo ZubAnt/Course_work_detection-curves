@@ -21,6 +21,7 @@ import modif_bessel
 import csv
 import factorial
 import plot_from_log
+import loss
 
 
 def plot_coherent_all():
@@ -70,10 +71,9 @@ def test():
 if __name__ == "__main__":
 
     # Plot integrand
-    # toronto.plot_integrand_one_impulse()      # график подинтеграла для некогерентного случая по по инф. техн. с Торонто
-    # no_toronto.plot_integrand_one_impulse()   # график подинтеграла для некогерентного случая по Ширману и по инф. техн.
+    # rips.get_EN0(10 ** -7, 0.9)
 
-    # incor.plot_for_one_imp_with_toronto()     # график интеграла с функций торонто
+    # incor.plot(10 ** -7, 1, 40, 1)     # график интеграла с функций торонто
     # print(stats.chi2.ppf(1 - 10**(-4), 2))
     # incor.plot_for_one_imp_without_toronto()  # график интеграла без функции торонто
     # incor.plot_for_one_imp_with_toronto_norm()
@@ -93,7 +93,8 @@ if __name__ == "__main__":
     # factorial.test()
     # modif_bessel.test()
     # plot_from_log.plot()
-    incor.log_prob_det()
+    # incor.log_prob_det()
+    loss.log()
 
 
 
