@@ -8,41 +8,47 @@ import scipy.special as spec
 from factorial import func as fact
 
 numb_term = 38
+porog = 700
 
-def summ_func(v, z, k):
+
+def summ_func(v, z, k, flag=False):
     numerator = np.float128((0.25 * (z ** 2)) ** np.float128(k))
     f = np.float128(fact(k))
-    # f = np.float128(misc.factorial(k, False))
+    # f = np.float128(misc.factorial(k, False) 
+    #g = spec.gamma(v + k + 1)
     g = np.float128(gamma.func(v + np.float128(k) + 1))
     denominator = np.float128(f * g)
     # ret_val = np.float128(numerator / denominator)
     # ret_val = np.float128(numerator / (f * g))
     ret_val = np.float128((numerator / f) * (numerator / g))
-    # print(numerator, f, g, f *g)
+    if flag is True:
+        print(numerator, f, g, f *g)
     return np.float128(ret_val)
 
 
-def getsumm(v, z):
+def getsumm(v, z, flag=False):
 
     summ = np.float128(0.0)
     # -6.62863316177e+23
     for k in range(0, numb_term):
-        summ += summ_func(v, z, k)
+        summ += summ_func(v, z, k, flag)
+    if flag is True:
+        print('summ = ', summ)
     return np.float128(summ)
 
 
-def func(v, z):
+def func(v, z, flag=False):
 
-    if z >= 700:
+    if z >= porog:
         k = np.float128((0.5 * z) ** v)
         summ = getsumm(v, z)
         modbes = np.float128(k * summ)
-        # print("is my")
-
+        if flag is True:
+            print("is my")
     else:
         modbes = np.float128(spec.iv(int(v), float(z)))
-        # print("is scipy")
-
+        if flag is True:
+            print("is scipy")
     return modbes
 
 

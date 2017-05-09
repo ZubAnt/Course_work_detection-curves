@@ -6,7 +6,7 @@ import os
 import datetime
 import toronto
 import random_initial_phase_signal as rips
-
+import modif_bessel as  mod_bes
 
 def get_prob_det(false_alarm, from_a, to_b, N, number_step):
     if to_b <= from_a:
@@ -39,6 +39,8 @@ def get_prob_det(false_alarm, from_a, to_b, N, number_step):
         m = np.float128(2 * N - 1)
         p = np.float128(N - 1)
         r = np.float128(np.sqrt(N) * i / np.sqrt(2))
+	
+        print("maxc arg = 2 * a * p = ", 2 * a * r, "; In(max_arg) = ", mod_bes.func(p, 2 * a * r, True))	
 
         D = np.float128(1 - toronto.func(a, m, p, r))
 
