@@ -10,9 +10,9 @@ def integrate_by_trapezium(function, from_a, to_b):
     if to_b <= from_a:
         raise ValueError("lower param of integrate must be bigger then upper param")
 
-    integral = 0.0
+    integral = np.float128(0.0)
 
-    step = (to_b - from_a) / 20000
+    step = (to_b - from_a) / 10000
     x_left = from_a
     y_left = function(from_a)
 
@@ -25,5 +25,5 @@ def integrate_by_trapezium(function, from_a, to_b):
         x_left = x_right
         y_left = y_right
 
-    return integral
+    return np.float128(integral)
 

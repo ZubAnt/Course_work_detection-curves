@@ -14,7 +14,9 @@ import csv
 
 def integrand(t, m, N, r):
     # return np.float128((t ** (m - N)) * np.exp(-(t ** 2)) * special.iv(int(N), float(2 * r * t)))
-    return np.float128((t ** (m - N)) * np.exp(-(t ** 2)) * iv.func(N, 2 * r * t))
+    s1 = np.float128((t ** (m - N)))
+    s2 = np.float128(np.exp(-(t ** 2)))
+    return np.float128(s1 * (s2 * iv.func(N, 2 * r * t)))
 
 
 def integrand_norm(m, n, p, a, t):
@@ -53,17 +55,15 @@ def func(a, m, N, r):
 
     k = np.float128(2 * (r ** (N - m + 1)) * np.exp(-(r ** 2)))
     integral = np.float128(integrate.quad(lambda t: integrand(t, m, N, r), 0, a)[0])
-
+    # print(k, integral)
     return np.float128(k * integral)
 
 
-def func_norm(m, n, p, a):
-    if n != 0:
-        raise ValueError("now N must be equal 0")
-
-    # integral = integrate.quad(lambda t: integrand_norm(m, n, p, a, t), 0, np.inf)
-    integral = num_integrate.integrate_by_trapezium(lambda t: integrand_norm(m, n, p, a, t), 0, 100)
-    return integral
+def func_norm(a, m, N, r):
+    k = np.float128(2 * (r ** (N - m + 1)) * np.exp(-(r ** 2)))
+    integral = num_integrate.integrate_by_trapezium(lambda t: integrand(t, m, N, r), 0, a)
+    print(k, integral)
+    return np.float128(k * integral)
 
 
 def func_norm_2(m, n, r):
@@ -89,9 +89,7 @@ def plot_func_norm_2():
     plt.show()
 
 
-def testing_integrand(from_a, to_b):
-    if to_b <= from_a:
-        raise ValueError("to_b must be bigger then from_a; now to_b <= from_a")
+def testing_integrand(N, number_step, false_alarm):
 
     x = list()
     y = list()
@@ -100,16 +98,21 @@ def testing_integrand(from_a, to_b):
     spamwriter = csv.writer(csvfile, delimiter=' ')
     spamwriter.writerow(['x', 'y'])
     csvfile.close()
+    df = 2 * N
+    C = stats.chi2.ppf(1 - false_alarm, df, 0, 2.48)
+    a = np.float128(np.sqrt(C / 2))
+    m = np.float128(2 * N - 1)
+    p = np.float128(N - 1)
+    r = np.float128(np.sqrt(N) * 2.48 / np.sqrt(2))
 
-    for i in np.arange(from_a, to_b, (to_b - from_a) / 100, dtype=np.float64):
+    for i in np.arange(0, a, a / number_step, dtype=np.float64):
         csvfile = open('integrand_float128.csv', 'a')
         spamwriter = csv.writer(csvfile, delimiter=' ')
 
-        m = np.float128(1.0)
-
-        integ = integrand(i, m, np.float128(0.0), np.float128(i / np.sqrt(2)))
+        integ = integrand(i, m, N, r)
 
         print(i, integ)
         spamwriter.writerow([i, integ])
         csvfile.close()
+        x.append(i)
         y.append(integ)

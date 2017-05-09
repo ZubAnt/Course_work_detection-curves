@@ -24,6 +24,7 @@ def summ_func(v, z, k):
 def getsumm(v, z):
 
     summ = np.float128(0.0)
+    # -6.62863316177e+23
     for k in range(0, 38):
         summ += summ_func(v, z, k)
     return np.float128(summ)
@@ -35,8 +36,11 @@ def func(v, z):
         k = np.float128((0.5 * z) ** v)
         summ = getsumm(v, z)
         modbes = np.float128(k * summ)
+        # print("is my")
+
     else:
         modbes = np.float128(spec.iv(int(v), float(z)))
+        # print("is scipy")
 
     return modbes
 
@@ -57,6 +61,6 @@ def plot():
 
 def test():
     for i in range(0, 800):
-        norm = spec.iv(0, i)
-        custom = func(0, i)
+        norm = spec.iv(50, i)
+        custom = func(50, i)
         print(i, norm, custom, norm - custom)

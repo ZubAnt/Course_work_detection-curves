@@ -7,7 +7,6 @@ import datetime
 import numpy.core.numerictypes as npt
 import scipy.stats as stats
 
-import chi2_mod
 import num_integrate
 import scipy.special as spec
 import scipy.misc as misc
@@ -22,6 +21,7 @@ import csv
 import factorial
 import plot_from_log
 import loss
+import base64
 
 
 def plot_coherent_all():
@@ -38,6 +38,8 @@ def plot_coherent_all():
              )
 
     plt.axis([1, 16, 0, 1])
+    plt.xlabel(r'$\sqrt{\frac{2E}{N_0}}$', fontsize=16, ha='left')
+    plt.ylabel('D', fontsize=16)
     plt.grid()
     plt.show()
 
@@ -70,7 +72,11 @@ def test():
 
 if __name__ == "__main__":
 
-    loss.log()
+    # loss.log()
+    # ripa.plot_family()
+    # modif_bessel.test()
+    # plot_coherent_all()
+    incor.log_one_prob_det(3, 0.1, 20)
 
 
 

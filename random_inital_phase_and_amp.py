@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 
 
 def prob_det(sqrt_E2_N0, false_alarm):
-
     return false_alarm ** (1 / ((sqrt_E2_N0 ** 2) / 2))
 
 
@@ -18,7 +17,6 @@ def get_prob_det(false_alarm):
 
 
 def get_family():
-
     x1, y1 = get_prob_det(10 ** -4)
     x2, y2 = get_prob_det(10 ** -6)
     x3, y3 = get_prob_det(10 ** -8)
@@ -29,10 +27,11 @@ def get_family():
 
 
 def plot_family():
-
     x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = get_family()
     plt.plot(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5)
 
     plt.axis([1, 16, 0, 1])
+    plt.xlabel(r'$\sqrt{\frac{2E}{N_0}}$', fontsize=16, ha='left')
+    plt.ylabel('D', fontsize=16)
     plt.grid()
     plt.show()
