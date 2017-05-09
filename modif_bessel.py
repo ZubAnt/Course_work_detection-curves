@@ -7,6 +7,7 @@ import scipy.special as spec
 
 from factorial import func as fact
 
+numb_term = 38
 
 def summ_func(v, z, k):
     numerator = np.float128((0.25 * (z ** 2)) ** np.float128(k))
@@ -25,7 +26,7 @@ def getsumm(v, z):
 
     summ = np.float128(0.0)
     # -6.62863316177e+23
-    for k in range(0, 38):
+    for k in range(0, numb_term):
         summ += summ_func(v, z, k)
     return np.float128(summ)
 
