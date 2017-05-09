@@ -76,5 +76,5 @@ if __name__ == "__main__":
     # ripa.plot_family()
     # modif_bessel.test()
     # plot_coherent_all()
-    incor.log_one_prob_det(6, 5, 11)
+    incor.log_one_prob_det(2, 15, 20)
 

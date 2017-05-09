@@ -7,7 +7,7 @@ import scipy.special as spec
 
 from factorial import func as fact
 
-numb_term = 38
+numb_term = 36
 porog = 700
 
 
